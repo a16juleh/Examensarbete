@@ -4,7 +4,7 @@
         <pre>
             <?php
                 $File = file('log.txt');
-                $JSON = array();
+                $Array = array();
 
                 foreach ($File as $Line) {
                     $Object = new \stdClass();
@@ -27,15 +27,22 @@
                     $Object->StatusCode = $Part[0];
                     $Object->BytesTransferred = $Part[1];
 
-                    // Uses the same array with values from the splitting with quotes marks
+                    // Use the same array with values from the splitting with quotes marks
                     // to get the URI and Browser
                     $Object->ReferrerURI = $Parts[3];
                     $Object->Browser = $Parts[5];
                     
-                    array_push($JSON, $Object);
+                    array_push($Array, $Object);
                 }
+                   
+                // Encode the array with all the objects into a JSON string
+                $JSONstring = json_encode($Array, JSON_PRETTY_PRINT);
+                
+                // Print out the JSON string
+                echo $JSONstring;
 
-                print_r(array_values($JSON));
+                // Save the JSON string to a JSON file
+                file_put_contents('Access-log.json', $JSONstring);
             ?>
         </pre>
     </body>
