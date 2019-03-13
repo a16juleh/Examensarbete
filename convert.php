@@ -3,9 +3,17 @@
     <body>
         <pre>
             <?php
-                $File = file('../Access-log.txt'); 
-                $Array = array();
+                // Change max execution time and memory limit to PHP for this script 
+                // to be able to convert big data (really large Access-logs) to JSON format. 
+                // This script is only used ones to create the JSON file that will be 
+                // the data for the charts. 
+                ini_set('max_execution_time', 240);
+                ini_set('memory_limit','4000M');
 
+                // Get the file
+                $File = file('../Log.txt'); 
+                $Array = array();
+                
                 foreach ($File as $Line) {
                     $Object = new \stdClass();
                     // Split the line and get the first element, the IP-address
@@ -16,7 +24,7 @@
                     $Firstpos = strpos($Line, "[") + 1;
                     $Secondpos= strpos($Line, "]");
                     $Timestamp = substr($Line, $Firstpos, $Secondpos - $Firstpos);
-
+                    
                     // Split the timestamp and get the date 
                     $TimestampParts = explode(':',trim($Timestamp));
                     $Date = $TimestampParts[0];
@@ -57,7 +65,7 @@
                 $JSONstring = json_encode($Array);
 
                 // Save the JSON string to a JSON file
-                file_put_contents('../test.json', $JSONstring);
+                file_put_contents('../Access-log.json', $JSONstring);
             ?>
         </pre>
     </body>
