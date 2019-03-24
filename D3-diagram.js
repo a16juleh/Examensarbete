@@ -1,18 +1,8 @@
 $('#Run').click(function(){
 	//Load data in JSON format from JSON file into circle chart
-	var data = {"my": "json"};
-	d3.json("test.json"), (function(error, data){ 
-	    // Return error object if there is some error 
-	    // while loading the data from the file
-	    if (error) {
-	        return console.warn(error);
-	    }
-
-	    console.log(data);
-
+    d3.json("test.json").then(function(data){ 
 	    //Declaration of variables
 	    var svgWidth = 300, svgHeight = 500, radius = Math.min(svgWidth, svgHeight) / 2;
-
 	    var svg = d3.select('svg').attr("Width", svgWidth).attr("Height", svgHeight);
 	    var group = svg.append("g").attr("transform", "translate(" + svgWidth / 2 + "," + svgHeight / 2 + ")");
 	    var color = d3.scaleOrdinal(['#4daf4a','#377eb8','#ff7f00','#984ea3','#e41a1c']);
