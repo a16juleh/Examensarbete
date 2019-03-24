@@ -1,6 +1,12 @@
 //Load data in JSON format from JSON file into circle chart
 var data = {"my": "json"};
-d3.json("test.json").then(function(data){   
+d3.json("test.json"), (function(error, data){ 
+    // Return error object if there is some error 
+    // while loading the data from the file
+    if (error) {
+        return console.warn(error);
+    }
+
     console.log(data);
 
     //Declaration of variables
