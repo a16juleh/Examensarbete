@@ -1,4 +1,6 @@
 $('#Run').click(function(){
+	localStorage.setItem('startTime', new Date().getTime());
+    console.log("startTime: " + localStorage.getItem('startTime'));
 	//Load data in JSON format from JSON file into circle chart
     d3.json("test.json").then(function(data){ 
 	    //Declaration of variables
@@ -49,5 +51,10 @@ $('#Run').click(function(){
 	                    return "translate(" + label.centroid(d) + ")"; 
 	            })  
 	        .text(function(d) { return "Status: " + d.data.key + "\n" + d.data.value + "st"; });  
+
+        localStorage.setItem('stopTime', new Date().getTime());
+	    console.log("stopTime: " + localStorage.getItem('stopTime'));
+	    localStorage.setItem('renderingTime', (localStorage.getItem('stopTime') - localStorage.getItem('startTime')));
+	    console.log("Total rendering time: " + localStorage.getItem('renderingTime') + "ms");
 	});
 });
