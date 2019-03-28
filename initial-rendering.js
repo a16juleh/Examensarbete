@@ -7,6 +7,7 @@
 // ==/UserScript==
 
 (function() {
+    var runs = 5;
     var timeArr = localStorage.getItem('timeArr');
     var counter = localStorage.getItem('counter');
 
@@ -15,20 +16,22 @@
         localStorage.setItem('counter' , counter);
     }
 
-    if(counter < 10){
+    if(counter < runs){
+        console.log("Check counter: " + localStorage.getItem('counter'));
         $('#Run').trigger("click");
 
-        if(timeArr == "" || timeArr == null){
-            timeArr = [];
-        }else {
-            timeArr = JSON.parse(timeArr);
-        }
-
-        timeArr.push(localStorage.getItem('renderingTime'));
-        localStorage.setItem('timeArr' , JSON.stringify(timeArr));
-        localStorage.setItem('counter' , ++counter);
-        location.reload();
-
+        setTimeout(function() {
+            if(timeArr == "" || timeArr == null){
+                timeArr = [];
+            }else {
+                timeArr = JSON.parse(timeArr);
+            }
+            //console.log("Check rendering time: " + localStorage.getItem('renderingTime'));
+            timeArr.push(localStorage.getItem('renderingTime'));
+            localStorage.setItem('timeArr' , JSON.stringify(timeArr));
+            localStorage.setItem('counter' , ++counter);
+            location.reload();
+        }, 15000);
     }else{
         $("html").append('<a download="data.txt" id="downloadLink" style="display: none;">Download</a>');
         var link, data, text = "", textFile = null,
