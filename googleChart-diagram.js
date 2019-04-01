@@ -8,7 +8,7 @@ $(document).on ("click", "#Run", function () {
 function drawChart() {
     var objectArray = [],  counts = [], chart, object, data;
     $.ajax({
-    url: "mounth1-dec-2015.json",
+    url: "month1-dec-2015.json",
     dataType: "JSON"
     }).done(function(objects) {
         data = new google.visualization.DataTable();
@@ -28,8 +28,12 @@ function drawChart() {
             data.addRow([key, counts[key]]);
         }
 
+        var options = {
+            pieHole: 0.4,
+          };
+
         chart = new google.visualization.PieChart(document.getElementById('diagram'));
-        chart.draw(data);
+        chart.draw(data, options);
         localStorage.setItem('stopTime', new Date().getTime());
         //console.log("stopTime: " + localStorage.getItem('stopTime'));
         localStorage.setItem('renderingTime', (localStorage.getItem('stopTime') - localStorage.getItem('startTime')));
