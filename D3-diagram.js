@@ -1,4 +1,4 @@
-$('#Run').click(function(){
+$(document).on ("click", "#Run", function () {
 	localStorage.setItem('startTime', new Date().getTime());
     console.log("startTime: " + localStorage.getItem('startTime'));
 	//Load data in JSON format from JSON file into circle chart
