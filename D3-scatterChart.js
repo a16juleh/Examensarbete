@@ -1,5 +1,5 @@
 $(document).on ("click", "#Run", function () {
-    d3.json("mounth1-dec-2015.json").then(function(data){ 
+    d3.json("test.json").then(function(data){ 
         // set the dimensions and margins of the graph
         var margin =  {"left": 40, "right": 30, "top": 30, "bottom": 30}, width = 400, height = 400; 
         var cValue = function(d) { return d.StatusCode;},
