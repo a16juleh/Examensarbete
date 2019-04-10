@@ -9,15 +9,16 @@
         <script src="jquery.min.js"></script>
         <!-- <script type="module" charset="utf-8" src="D3-test.js"></script> -->
         <script charset="utf-8" type="text/javascript" src="D3-scatterChart.js"></script>
-        <!-- <div>
-            <span>From: <input type="date" name="From" id="From"/></span>
-            <span>To: <input type="date" name="To" id="To"/></span>
-            <input type="button" onclick="" value="Submit">
-        </div> -->
         <button id="Run">Run</button>
         <div>
-            <svg id ="Diagram" class="chart" width="1000" height="1000"></svg>
+            <span>From: <input type="text" id="xlimStart" value=1></span>
+            <span>To: <input type="text" id="xlimEnd" value=31></span>
+            <input type="button" id="buttonChange" value="Submit">
+        </div>
+        <div>
+            <svg id ="Diagram" class="chart" style="width: 1000px; height: 1000px;"></svg>
         </div>
         <p id="d3"></p>
     </body>
 </html>
+
