@@ -1,23 +1,24 @@
 // ==UserScript==
-// @name         Measure initial rendering time
+// @name         Initial rendering time
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// $require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @version      1
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @match        http://localhost/exjobb/D3-test.html
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    var runs = 5;
-    var timeArr = localStorage.getItem('timeArr');
-    var counter = localStorage.getItem('counter');
+var runs = 1000;
+var timeArr = localStorage.getItem('timeArr');
+var counter = localStorage.getItem('counter');
 
+(function() {
     if(counter == null || counter == "" || counter=="NaN"){
         counter = 0;
         localStorage.setItem('counter' , counter);
     }
 
     if(counter < runs){
-        console.log("Check counter: " + localStorage.getItem('counter'));
+        //console.log("Check counter: " + localStorage.getItem('counter'));
         $('#Run').trigger("click");
 
         setTimeout(function() {
@@ -31,7 +32,7 @@
             localStorage.setItem('timeArr' , JSON.stringify(timeArr));
             localStorage.setItem('counter' , ++counter);
             location.reload();
-        }, 15000);
+        }, 2000);
     }else{
         $("html").append('<a download="data.txt" id="downloadLink" style="display: none;">Download</a>');
         var link, data, text = "", textFile = null,
