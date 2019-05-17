@@ -6,48 +6,46 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
-    var chance = new Chance(1);
-    var runs = 100, xlimStart, xlimEnd, temp;
-    var timeArr = [], valuesArr = [], Arr = [];
+var chance = new Chance(1);
+var runs = 100, changes = 20, xlimStart, xlimEnd, temp;
+var timeArr = [], valuesArr = [], Arr = [];
+var times = localStorage.getItem('times');
 
-    $('#Run').trigger("click");
+function change_diagram() {
+    xlimStart = chance.integer({ min: 1, max: 15 });
+    xlimEnd = chance.integer({ min: 16, max: 31 });
+    $('#xlimStart').val(xlimStart);
+    $('#xlimEnd').val(xlimEnd);
+    $('#buttonChange').trigger("click");
 
     setTimeout(function() {
-        (function loop (i) {
-            xlimStart = chance.integer({ min: 1, max: 15 });
-            xlimEnd = chance.integer({ min: 16, max: 31 });
-            $('#xlimStart').val(xlimStart);
-            $('#xlimEnd').val(xlimEnd);
-            setTimeout(function () {
-                $('#buttonChange').trigger("click");
-                if (--i) {
-                    loop(i);
-                }
-            }, 10000);
-            timeArr.push(localStorage.getItem('renderingTime'));
-            Arr = [xlimStart,xlimEnd];
-            valuesArr[timeArr.length -1] = Arr;
-            console.log("xlimStart " + xlimStart);
-            console.log("xlimEnd " + xlimEnd);
-            if(timeArr.length == runs){
-                download(timeArr, valuesArr);
-            }
-        })(runs);
-    }, 15000);
+      	timeArr.push(localStorage.getItem('renderingTime'));
+        
+        if(times == "" || times == null){
+            times = [];
+        }else {
+          	times = eval(times);	
+        }
+      
+      	if(times.length == runs){
+            download(); 
+        }else if(timeArr.length == changes){
+          	times.push(timeArr);
+          	localStorage.setItem("times", JSON.stringify(times));
+            location.reload();
+        }else {
+            change_diagram();
+        }
+    }, 1000);
+}
 
-})();
-
-function download(timeArr, valuesArr) {
+function download() {
         $("html").append('<a download="data.txt" id="downloadLink" style="display: none;">Download</a>');
-        var link, data, text = "", textFile = null,
+        var link, data, text = "", textFile = null, 
+            times = JSON.parse(localStorage.getItem("times")),
             makeTextFile = function(){
-                for(var i = 0; i < timeArr.length; i++){
-                    text += timeArr[i] + "\n";
-                }
-
-                for(var i = 0; i < valuesArr.length; i++){
-                    text += valuesArr[i] + "\n";
+                for(var i = 0; i < times.length; i++){
+                    text += times[i] + "\n";
                 }
 
                 data = new Blob([text], {type: 'text/plain'});
@@ -57,5 +55,13 @@ function download(timeArr, valuesArr) {
 
         link = document.getElementById('downloadLink');
         link.href = makeTextFile('data');
+  			localStorage.clear();
         link.click();
 }
+
+(function() {
+    $('#Run').trigger("click");
+
+    setTimeout(function() {change_diagram();}, 2000);
+
+})();
