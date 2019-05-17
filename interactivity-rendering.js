@@ -1,8 +1,10 @@
 // ==UserScript==
-// @name         Measure initial rendering time
+// @name         interactivity rendering time
 // @namespace    http://tampermonkey.net/
-// @version      0.1
-// $require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @version      1
+// @require      https://chancejs.com/chance.min.js
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @match        http://localhost/exjobb/googleChart-diagram.html
 // @grant        none
 // ==/UserScript==
 
