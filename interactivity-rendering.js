@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         interactivity rendering time
+// @name         Interactivity rendering time
 // @namespace    http://tampermonkey.net/
 // @version      1
 // @require      https://chancejs.com/chance.min.js
@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 var chance = new Chance(1);
-var runs = 100, changes = 20, xlimStart, xlimEnd, temp;
+var runs = 2, changes = 5, xlimStart, xlimEnd;
 var timeArr = [], valuesArr = [], Arr = [];
 var times = localStorage.getItem('times');
 
@@ -21,49 +21,48 @@ function change_diagram() {
     $('#buttonChange').trigger("click");
 
     setTimeout(function() {
-      	timeArr.push(localStorage.getItem('renderingTime'));
+        timeArr.push(localStorage.getItem('renderingTime'));
         
         if(times == "" || times == null){
             times = [];
         }else {
-          	times = eval(times);	
+            times = eval(times);    
         }
       
-      	if(times.length == runs){
+        if(times.length == runs){
             download(); 
         }else if(timeArr.length == changes){
-          	times.push(timeArr);
-          	localStorage.setItem("times", JSON.stringify(times));
+            times.push(timeArr);
+            localStorage.setItem("times", JSON.stringify(times));
             location.reload();
         }else {
             change_diagram();
         }
-    }, 1000);
+    }, 10000);
 }
 
 function download() {
-        $("html").append('<a download="data.txt" id="downloadLink" style="display: none;">Download</a>');
-        var link, data, text = "", textFile = null, 
-            times = JSON.parse(localStorage.getItem("times")),
-            makeTextFile = function(){
-                for(var i = 0; i < times.length; i++){
-                    text += times[i] + "\n";
-                }
+    $("html").append('<a download="data.txt" id="downloadLink" style="display: none;">Download</a>');
+    var link, data, text = "", textFile = null, 
+        times = JSON.parse(localStorage.getItem("times")),
+        makeTextFile = function(){
+            for(var i = 0; i < times.length; i++){
+                text += times[i] + "\n";
+            }
 
-                data = new Blob([text], {type: 'text/plain'});
-                textFile = window.URL.createObjectURL(data);
-                return textFile;
-            };
+            data = new Blob([text], {type: 'text/plain'});
+            textFile = window.URL.createObjectURL(data);
+            return textFile;
+        };
 
-        link = document.getElementById('downloadLink');
-        link.href = makeTextFile('data');
-  			localStorage.clear();
-        link.click();
+    link = document.getElementById('downloadLink');
+    link.href = makeTextFile('data');
+    localStorage.clear();
+    link.click();
 }
 
 (function() {
     $('#Run').trigger("click");
 
     setTimeout(function() {change_diagram();}, 2000);
-
 })();
