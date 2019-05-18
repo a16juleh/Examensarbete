@@ -9,7 +9,7 @@
 // ==/UserScript==
 
 var chance = new Chance(1);
-var runs = 2, changes = 5, xlimStart, xlimEnd;
+var runs = 100, changes = 20, xlimStart, xlimEnd;
 var timeArr = [], valuesArr = [], Arr = [];
 var times = localStorage.getItem('times');
 
@@ -38,7 +38,7 @@ function change_diagram() {
         }else {
             change_diagram();
         }
-    }, 10000);
+    }, 1000);
 }
 
 function download() {
